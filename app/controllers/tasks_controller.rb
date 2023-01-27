@@ -1,45 +1,47 @@
 class TasksController < ApplicationController 
-    def index 
-        @tasks = Task.all
-    end
+  before_action :get_task, except: [:index, :create, :new] 
 
-    def new 
-    end 
+  def index 
+    @tasks = Task.all
+  end
 
-    def create 
-        task = Task.new(
-            title: params[:task][:title],
-            description: params[:task][:description]
-        )
+  def new 
+  end 
 
-        task.save!
+  def create 
+    task = Task.new(
+      title: params[:task][:title],
+      description: params[:task][:description]
+    )
 
-        redirect_to "/tasks"
-    end
+    task.save!
 
-    def show
-        @task = Task.find(params[:id])
-    end 
+    redirect_to "/tasks"
+  end
 
-    def edit
-        @task = Task.find(params[:id])
-    end
+  def show
+  end 
 
-    def update 
-        task = Task.find(params[:id])
+  def edit
+  end
 
-        task.update!(title: params[:task][:title], description: params[:task][:description])
+  def update 
+    @task.update!(title: params[:task][:title], description: params[:task][:description])
 
-        task.save
+    @task.save!
 
-        redirect_to "/tasks/#{task.id}"
-    end
+    redirect_to "/tasks/#{@task.id}"
+  end
 
-    def destroy 
-        task = Task.find(params[:id])
+  def destroy 
+    @task.destroy!
 
-        task.destroy!
+    redirect_to "/tasks"
+  end 
 
-        redirect_to "/tasks"
-    end 
+  private 
+  
+  def get_task 
+    @task = Task.find(params[:id])
+  end 
 end 
