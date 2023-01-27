@@ -30,7 +30,7 @@ class TasksController < ApplicationController
 
         task.update!(title: params[:task][:title], description: params[:task][:description])
 
-        task.save!
+        task.save
 
         redirect_to "/tasks/#{task.id}"
     end
